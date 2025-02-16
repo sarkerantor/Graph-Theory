@@ -34,3 +34,14 @@ int main(){
     for(int i=1;i<=node;i++)cout<<dist[i]<<" ";
     return 0;
 }
+/*
+Input:
+5 6
+1 2 5
+1 5 1
+1 4 9
+2 3 2
+3 4 6
+4 5 2
+1
+*/
