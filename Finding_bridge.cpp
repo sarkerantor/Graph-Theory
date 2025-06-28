@@ -10,15 +10,12 @@ void dfs(int node,int par){
     timer++;
     for(int child:v[node]){
         if(child==par)continue;
-        if(vis[child]==1){
-            low[node]=min(low[node],in[child]);
-        }
+        if(vis[child]==1)low[node]=min(low[node],in[child]);
         else{
             dfs(child,node);
             if(low[child]>in[node])cout<<node<<"->"<<child<<endl;
             low[node]=min(low[node],low[child]);
         }
-        
     }
 }
 int main(){
