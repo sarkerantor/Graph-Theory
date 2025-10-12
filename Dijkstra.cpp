@@ -1,47 +1,46 @@
 #include<bits/stdc++.h>
 using namespace std;
-const int inf=1e7;
 int main(){
     freopen("input.txt","r",stdin);
-    int node,edge,x,y,w;
+    int node,edge,x,y,w,src;
     cin>>node>>edge;
-    vector<int>dist(node+1,inf);
-    vector<vector<pair<int,int>>>graph(node+1);
+    vector<vector<pair<int,int>>>v(node+1);
     while(edge--){
-        cin>>x>>y>>w;
-        graph[x].push_back({y,w});
-        graph[y].push_back({x,w});
+      cin>>x>>y>>w;
+      v[x].push_back({y,w});
+      v[y].push_back({x,w});
     }
-    int source;
-    cin>>source;
-    dist[source]=0;
-    set<pair<int,int>>s;
-    //{weight,vertex}
-    s.insert({0,source});
-    while (!s.empty())
-    {
-        auto x=*(s.begin());
-        s.erase(x);
-        for(auto it:graph[x.second]){
-            if(dist[it.first]>dist[x.second]+it.second){
-                s.erase({dist[it.first],it.first});
-                dist[it.first]=dist[x.second]+it.second;
-                s.insert({dist[it.first],it.first});
-            }
-        }
+    vector<int>dist(node+1,INT_MAX);
+    cin>>src;
+    dist[src]=0;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+    pq.push({0,src});
+    while(!pq.empty()){
+      int dis=pq.top().first;
+      int node=pq.top().second;
+      pq.pop();
+      for(auto it:v[node]){
+         int adjnode=it.first;
+         int nodewt=it.second;
+         if(dist[adjnode] > dis+nodewt){
+            dist[adjnode]=dis+nodewt;
+            pq.push({dist[adjnode],adjnode});
+         }
+      }
     }
-    cout<<"The minimum distance from "<<source <<" to other vertex : ";
-    for(int i=1;i<=node;i++)cout<<dist[i]<<" ";
+    for(int i=0;i<=node;i++)cout<<dist[i]<<" ";
     return 0;
 }
 /*
 Input:
-5 6
-1 2 5
-1 5 1
-1 4 9
-2 3 2
-3 4 6
-4 5 2
-1
+6 8
+0 1 4
+0 2 4
+1 2 2
+2 3 3
+2 4 1
+2 5 6
+3 5 2
+4 5 3
+0
 */
