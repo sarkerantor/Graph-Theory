@@ -1,40 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int>v[1000];
-int vis[1000],in[1000],low[1000];
-int timer;
+const int N=200005;
+vector<int>v[N];
+int in[N],low[N],vis[N];
+int timer=0;
 void dfs(int node,int par){
     vis[node]=1;
-    in[node]=timer;
-    low[node]=timer;
-    timer++;
+    in[node]=low[node]=++timer;
     for(int child:v[node]){
         if(child==par)continue;
-        if(vis[child]==1)low[node]=min(low[node],in[child]);
+        if(vis[child])low[node]=min(low[node],low[child]);
         else{
             dfs(child,node);
-            if(low[child]>in[node])cout<<node<<"->"<<child<<endl;
             low[node]=min(low[node],low[child]);
+            if(low[node]<low[child]){
+                cout<<node<<" "<<child<<endl;
+            }
         }
     }
 }
 int main(){
-    //freopen("input.txt","r",stdin);
-    int node,edge,a,b;
-    cin>>node>>edge;
-    while(edge--){
+    freopen("input.txt","r",stdin);
+    int n,m,a,b;
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
         cin>>a>>b;
         v[a].push_back(b);
         v[b].push_back(a);
     }
-    dfs(1,-1);
+    for(int i=1;i<=n;i++){
+        if(!vis[i])dfs(i,-1);
+    }
     return 0;
 }
-/*
-Input:
-4 4
-1 2
-2 3
-2 4
-3 4
-*/
