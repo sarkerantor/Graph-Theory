@@ -9,11 +9,11 @@ void dfs(int node,int par){
     in[node]=low[node]=++timer;
     for(int child:v[node]){
         if(child==par)continue;
-        if(vis[child])low[node]=min(low[node],low[child]);
+        if(vis[child])low[node]=min(low[node],in[child]);
         else{
             dfs(child,node);
             low[node]=min(low[node],low[child]);
-            if(low[node]<low[child]){
+            if(in[node]<low[child]){
                 cout<<node<<" "<<child<<endl;
             }
         }
