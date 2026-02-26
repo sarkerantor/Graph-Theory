@@ -1,23 +1,26 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int>v[10001],path;
-int vis[10001];
+vector<int>v[22],path;
+int vis[22];
 int n;
 bool hamiltonian(int node,int count){
+    vis[node]=1;
     path.push_back(node);
     if(count==n){
         if(find(v[node].begin(),v[node].end(),path[0])!=v[node].end()){
-            cout<<"Hamiltonian cycle exist :";
-            for(int i:path)cout<<i<<" ";
+            cout<<"Hamiltonian cycle exist : ";
+            for(int val:path)cout<<val<<" ";
             cout<<path[0]<<endl;
         }
         else{
             cout<<"Hamiltonian Path exist : ";
-            for(int i:path)cout<<i<<" ";
+            for(int val:path)cout<<val<<" ";
             cout<<endl;
         }
+        vis[node]=0;
+        path.pop_back();
+        return true;
     }
-    vis[node]=1;
     bool found=false;
     for(int child:v[node]){
         if(!vis[child]){
@@ -38,19 +41,9 @@ int main(){
         v[b].push_back(a);
     }
     bool found=false;
-    for(int i=0;i<n;i++){
+    for(int i=1;i<=n;i++){
         found|=hamiltonian(i,1);
     }
-    if(!found)cout<<"Hamilton path and cycle not exist."<<endl;
+    if(!found)cout<<"Hamilton Path and Circuit not exist."<<endl;
     return 0;
 }
-/*
-Input:
-4 6
-0 1
-0 2
-0 3
-1 2
-1 3
-2 3
-*/
